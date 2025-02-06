@@ -24,4 +24,4 @@ spec:
               import logging
               logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
               logging.info("Hello from App2")
-      restartPolicy: OnFailure  # Jobが失敗した場合に再試行する設定
+      restartPolicy: OnFailure
