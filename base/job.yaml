@@ -8,8 +8,6 @@ spec:
   parallelism: 2
   template:
     metadata:
-      name: job2-template
-      namespace: negi
       labels:
         app: job2
     spec:
