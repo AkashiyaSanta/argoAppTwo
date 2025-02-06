@@ -9,6 +9,7 @@ spec:
   template:
     metadata:
       name: job2-template
+      namespace: negi
       labels:
         app: job2
     spec:
