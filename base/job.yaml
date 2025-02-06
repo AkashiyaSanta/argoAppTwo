@@ -1,18 +1,18 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: app2-job
+  name: job2
   namespace: negi
 spec:
-  completions: 10  # 完了する必要のあるジョブの数
-  parallelism: 2   # 同時に実行するジョブの数
+  completions: 10 # 完了する必要のあるジョブの数
+  parallelism: 2  # 同時に実行するジョブの数
   template:
     metadata:
       labels:
-        app: app2
+        job: job2
     spec:
       containers:
-        - name: app2
+        - name: job2
           image: python:3.9-slim
           env:
             - name: PYTHONUNBUFFERED
