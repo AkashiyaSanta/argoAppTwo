@@ -14,10 +14,17 @@ spec:
         app: app2
     spec:
       containers:
-        - name: app1
-          image: negis:latest
-          imagePullPolicy: Never
-          resources:
-            limits:
-              memory: 128Mi
-              cpu: "1"
+        - name: app2
+          image: python:3.9-slim
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          command:
+            - "python"
+            - "-c"
+            - |
+              import logging
+              logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+              logging.info("Hello from App2")
+              import time
+              time.sleep(3600)
