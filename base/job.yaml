@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: my-job
+  name: my-job2
 spec:
   template:
     spec:
       containers:
-      - name: me2
+      - name: job2
         image: python:3.9-slim
         env:
           - name: PYTHONUNBUFFERED
@@ -17,5 +17,5 @@ spec:
           - |
             import logging
             logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-            logging.info("Hello from App2")
+            logging.info("Hello from Job2")
       restartPolicy: OnFailure
