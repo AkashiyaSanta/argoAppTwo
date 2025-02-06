@@ -6,8 +6,16 @@ spec:
   template:
     spec:
       containers:
-      - name: my-container
-        image: busybox
-        command: ["echo", "Hello, Kubernetes!"]
-      restartPolicy: Never
-  backoffLimit: 4
+        - name: me2
+          image: python:3.9-slim
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          command:
+            - "python"
+            - "-c"
+            - |
+              import logging
+              logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+              logging.info("Hello from App2")
+      restartPolicy: OnFailure  # Jobが失敗した場合に再試行する設定
