@@ -1,13 +1,9 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: app2
+  name: app2-job
   namespace: negi
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: app2
   template:
     metadata:
       labels:
@@ -26,5 +22,4 @@ spec:
               import logging
               logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
               logging.info("Hello from App2")
-              import time
-              time.sleep(3600)
+      restartPolicy: OnFailure  # Jobが失敗した場合に再試行する設定
