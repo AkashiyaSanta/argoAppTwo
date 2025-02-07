@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k6-operator
+  namespace: k6-operator-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k6-operator
+  template:
+    metadata:
+      labels:
+        app: k6-operator
+    spec:
+      containers:
+        - name: k6-operator
+          image: ghcr.io/grafana/k6-operator:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
