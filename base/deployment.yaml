@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k6-operator-system
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -9,23 +14,11 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: k6-operator
+  name: k6-operator-role
 rules:
-  - apiGroups: [""]
-    resources: ["pods", "services", "configmaps", "secrets", "events"]
-    verbs: ["get", "list", "create", "update", "delete"]
-  - apiGroups: ["apps"]
-    resources: ["deployments", "replicasets", "statefulsets"]
-    verbs: ["get", "list", "create", "update", "delete"]
-  - apiGroups: ["batch"]
-    resources: ["jobs"]
-    verbs: ["get", "list", "create", "update", "delete"]
-  - apiGroups: ["extensions"]
-    resources: ["ingresses"]
-    verbs: ["get", "list", "create", "update", "delete"]
   - apiGroups: ["k6.io"]
-    resources: ["tests", "testscenarios"]
-    verbs: ["get", "list", "create", "update", "delete"]
+    resources: ["testruns"]
+    verbs: ["get", "list", "watch"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -38,7 +31,7 @@ subjects:
     namespace: k6-operator-system
 roleRef:
   kind: ClusterRole
-  name: k6-operator
+  name: k6-operator-role
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -57,28 +50,14 @@ spec:
       labels:
         app: k6-operator
     spec:
-      serviceAccountName: k6-operator
+      serviceAccountName: k6-operator  # ここで適用
       containers:
         - name: k6-operator
           image: ghcr.io/grafana/k6-operator:latest
           ports:
             - containerPort: 8080
-          resources:
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
-            requests:
-              cpu: "250m"
-              memory: "256Mi"
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /readyz
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
+          env:
+            - name: K6_OPERATOR_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
