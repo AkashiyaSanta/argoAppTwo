@@ -19,7 +19,10 @@ rules:
   - apiGroups: ["k6.io"]
     resources: ["testruns"]
     verbs: ["get", "list", "watch"]
-
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list", "get", "watch"]
+    # Pods リソースの権限を追加
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
