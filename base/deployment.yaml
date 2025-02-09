@@ -18,9 +18,9 @@ rules:
   - apiGroups: ["k6.io"]
     resources: ["testruns"]
     verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["list", "get", "watch"]
+  - apiGroups: ["k6.io"]
+    resources: ["testruns/status"]
+    verbs: ["patch"]
   - apiGroups: ["k6.io"]
     resources: ["privateloadzones"]
     verbs: ["list", "get", "watch"] 
@@ -28,8 +28,11 @@ rules:
     resources: ["jobs"]
     verbs: ["list", "get", "watch"]
   - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list", "get", "watch"]
+  - apiGroups: [""]
     resources: ["pods/log"]
-    verbs: ["get"]    # Job リソースへの権限を追加
+    verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
