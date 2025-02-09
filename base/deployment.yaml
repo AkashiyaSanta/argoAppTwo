@@ -14,7 +14,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: k6-operator-role
-  namespace: k6-operator-system
 rules:
   - apiGroups: ["k6.io"]
     resources: ["testruns"]
@@ -42,7 +41,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: k6-operator-binding
-  namespace: k6-operator-system
 subjects:
   - kind: ServiceAccount
     name: k6-operator
@@ -50,7 +48,6 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: k6-operator-role
-  namespace: k6-operator-system
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: apps/v1
@@ -103,8 +100,3 @@ roleRef:
   kind: Role
   name: k6-operator-log-role
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: k6-new  
