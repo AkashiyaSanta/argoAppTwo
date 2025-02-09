@@ -102,4 +102,9 @@ roleRef:
   kind: Role
   name: k6-operator-log-role
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k6-test-space
 
